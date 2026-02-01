@@ -69,6 +69,6 @@ jobs:
             sudo docker stop image-processor || true
             sudo docker rm image-processor || true
             
-            # Pull and run the new image
+            # Pull and run the new image with auto-restart policy
             sudo docker pull $IMAGE_PATH
-            sudo docker run -d --name image-processor -p 80:80 $IMAGE_PATH
+            sudo docker run -d --name image-processor --restart always -p 80:80 $IMAGE_PATH
