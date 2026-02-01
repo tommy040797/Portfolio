@@ -36,8 +36,15 @@ def process_image(image_path):
             if test_torch.returncode == 0:
                 torch_status = f"Torch Import Test: SUCCESS ({test_torch.stdout.strip()})"
             else:
-                # Avoid backslash in f-string expression for Python 3.11 compatibility
-                torch_status = f"Torch Import Test: FAILED\n{test_torch.stderr}"
+                # Check for LD_PRELOAD and library existence
+                preload = os.environ.get("LD_PRELOAD", "NOT SET")
+                lib_exists = os.path.exists("/usr/lib/aarch64-linux-gnu/libgomp.so.1")
+                torch_status = (
+                    f"Torch Import Test: FAILED\n"
+                    f"LD_PRELOAD: {preload}\n"
+                    f"LibGOMP Exists: {lib_exists}\n"
+                    f"STDERR: {test_torch.stderr}"
+                )
 
             pred_process = subprocess.run(
                 [sys.executable, "predict.py", "--image", image_path],

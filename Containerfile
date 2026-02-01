@@ -10,13 +10,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
     libgomp1 \
+    libopenblas0 \
     libopenblas-dev \
     libatomic1 \
     libgl1 \
     libglib2.0-0 \
+    libatlas-base-dev \
+    libblas-dev \
+    liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Fix for "Illegal Instruction" on some ARM64 CPUs
+# Fixes for "Illegal Instruction" (SIGILL) on Raspberry Pi 4
+ENV OMP_NUM_THREADS=1
 ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
 
 # Copy requirements first for better caching
