@@ -71,4 +71,4 @@ jobs:
             
             # Pull and run the new image with auto-restart policy
             sudo docker pull $IMAGE_PATH
-            sudo docker run -d --name image-processor --restart always -p 80:80 $IMAGE_PATH
+            sudo docker run -d --name image-processor --restart always -p 8080:80 $IMAGE_PATH
