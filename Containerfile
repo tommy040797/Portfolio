@@ -1,13 +1,13 @@
-# Start with the latest slim image (currently Trixie based)
-FROM python:3.11-slim
+# Start with the stable Debian Bookworm based image
+# This is crucial for PyTorch binary compatibility (GLIBC)
+FROM python:3.11-slim-bookworm
 
 # Set working directory
 WORKDIR /app
 
 # Install system dependencies
-# Using --fix-missing and specific stable package names
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --fix-missing && \
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
