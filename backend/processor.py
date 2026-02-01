@@ -28,7 +28,7 @@ def process_image(image_path):
         prediction_data = {
             "class": "Unknown",
             "confidence": "0%",
-            "raw_output": pred_process.stdout
+            "raw_output": f"STDOUT:\n{pred_process.stdout}\n\nSTDERR:\n{pred_process.stderr}"
         }
 
         if pred_process.returncode == 0:

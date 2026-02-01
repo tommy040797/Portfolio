@@ -4,18 +4,19 @@ FROM python:3.11-slim
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies (Basic tools and Pillow deps)
+# Install system dependencies (Basic tools and Pillow/Torch deps)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
+    libgomp1 \
+    libopenblas0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install dependencies optimized for CPU (much smaller and fits better on Pi)
+# Install dependencies (on ARM64, the standard index works best for Torch)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
