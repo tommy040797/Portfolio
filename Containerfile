@@ -1,24 +1,23 @@
-# Start with a lightweight Python base image
+# Start with the latest slim image (currently Trixie based)
 FROM python:3.11-slim
 
 # Set working directory
 WORKDIR /app
 
 # Install system dependencies
+# Using --fix-missing and specific stable package names
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update --fix-missing && \
+    apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
     libgomp1 \
+    libatomic1 \
     libopenblas0 \
     libopenblas-dev \
-    libatomic1 \
     libgl1 \
     libglib2.0-0 \
-    libatlas-base-dev \
-    libblas-dev \
-    liblapack-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Fixes for "Illegal Instruction" (SIGILL) on Raspberry Pi 4
 ENV OMP_NUM_THREADS=1
