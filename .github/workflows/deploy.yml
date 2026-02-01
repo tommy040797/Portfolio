@@ -59,17 +59,16 @@ jobs:
           username: ${{ secrets.PI_USER }}
           key: ${{ secrets.PI_SSH_KEY }}
           script: |
-            # Create a directory if it doesn't exist
-            mkdir -p ~/image-processor
-            cd ~/image-processor
+            # Set image name to lowercase
+            IMAGE_PATH=$(echo "ghcr.io/${{ github.repository }}:main" | tr '[:upper:]' '[:lower:]')
             
-            # Login to GHCR (using a PAT or token is better, but here we assume the Pi is logged in or we use env)
-            # For simplicity, we assume we have a way to pull the image.
-            # Usually, you'd use a docker-compose file on the Pi as well.
+            # Login to GHCR with sudo
+            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            # Stop and remove existing container
+            sudo docker stop image-processor || true
+            sudo docker rm image-processor || true
             
-            docker stop image-processor || true
-            docker rm image-processor || true
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
-            docker run -d --name image-processor -p 8000:8000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+            # Pull and run the new image
+            sudo docker pull $IMAGE_PATH
+            sudo docker run -d --name image-processor -p 8000:8000 $IMAGE_PATH
