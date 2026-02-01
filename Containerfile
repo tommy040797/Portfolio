@@ -23,7 +23,7 @@ COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
 # Expose the port FastAPI runs on
-EXPOSE 8000
+EXPOSE 80
 
 # Set the working directory to where main.py is
 WORKDIR /app/backend

@@ -71,4 +71,4 @@ jobs:
             
             # Pull and run the new image
             sudo docker pull $IMAGE_PATH
-            sudo docker run -d --name image-processor -p 8000:8000 $IMAGE_PATH
+            sudo docker run -d --name image-processor -p 80:80 $IMAGE_PATH
