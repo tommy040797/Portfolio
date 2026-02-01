@@ -44,7 +44,12 @@ async def read_scanner():
 # Serve uploaded images for preview under /scanner/previews
 app.mount("/scanner/previews", StaticFiles(directory=UPLOAD_DIR), name="previews")
 
-import asyncio
+from predict import SkinClassifier
+from PIL import Image
+
+# Initialize the classifier globally (loads model once on startup)
+# This keeps the model in RAM, making inferences significantly faster (especially on RPi)
+classifier = SkinClassifier()
 
 async def cleanup_temp_file(path: str, delay: int = 60):
     """Deletes a file after a specified delay in seconds."""
@@ -68,29 +73,32 @@ async def process_image(background_tasks: BackgroundTasks, file: UploadFile = Fi
         with open(temp_file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        # Call the subprocess
-        process = subprocess.Popen(
-            [sys.executable, "processor.py", temp_file_path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            cwd=os.path.dirname(os.path.abspath(__file__))
-        )
-        stdout, stderr = process.communicate()
+        # 1. Extract Image Metadata directly (fast)
+        with Image.open(temp_file_path) as img:
+            base_info = {
+                "width": img.width,
+                "height": img.height,
+                "format": img.format,
+                "mode": img.mode,
+            }
 
-        if process.returncode != 0:
-            # Clean up immediately on error
-            if os.path.exists(temp_file_path):
-                os.remove(temp_file_path)
-            raise HTTPException(status_code=500, detail=f"Subprocess error: {stderr}")
+        # 2. Use the in-memory classifier (lightning fast after initial load)
+        prediction = classifier.predict_image(temp_file_path)
 
-        # Schedule cleanup in the background (gives frontend time to load the image)
+        if "error" in prediction:
+            raise HTTPException(status_code=500, detail=prediction["error"])
+
+        # Schedule cleanup in the background
         background_tasks.add_task(cleanup_temp_file, temp_file_path)
 
-        # Parse the result from subprocess
-        result = json.loads(stdout)
-        result["preview_url"] = f"/scanner/previews/{file_id}{extension}"
-        return result
+        # Assemble final response
+        return {
+            "status": "success",
+            **base_info,
+            "prediction": prediction,
+            "preview_url": f"/scanner/previews/{file_id}{extension}",
+            "message": f"Analyse abgeschlossen für: {os.path.basename(temp_file_path)}"
+        }
 
     except Exception as e:
         if os.path.exists(temp_file_path):
