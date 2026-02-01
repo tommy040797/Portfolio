@@ -27,7 +27,6 @@ def process_image(image_path):
                 "raw_output": f"FATAL ERROR: predict.py not found at {predict_script}"
             }
         else:
-            # Let's try to run a simple test to see if torch is importable
             test_torch = subprocess.run(
                 [sys.executable, "-c", "import torch; print(torch.__version__)"],
                 capture_output=True,
