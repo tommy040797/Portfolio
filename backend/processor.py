@@ -34,7 +34,11 @@ def process_image(image_path):
                 text=True
             )
             
-            torch_status = f"Torch Import Test: {'SUCCESS (' + test_torch.stdout.strip() + ')' if test_torch.returncode == 0 else 'FAILED\n' + test_torch.stderr}"
+            if test_torch.returncode == 0:
+                torch_status = f"Torch Import Test: SUCCESS ({test_torch.stdout.strip()})"
+            else:
+                # Avoid backslash in f-string expression for Python 3.11 compatibility
+                torch_status = f"Torch Import Test: FAILED\n{test_torch.stderr}"
 
             pred_process = subprocess.run(
                 [sys.executable, "predict.py", "--image", image_path],
