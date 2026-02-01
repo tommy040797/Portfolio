@@ -17,31 +17,51 @@ def process_image(image_path):
             }
 
         # 2. Call predict.py (Subprocess)
-        # Note: predict.py prints to stdout, it doesn't return JSON
-        pred_process = subprocess.run(
-            [sys.executable, "predict.py", "--image", image_path],
-            capture_output=True,
-            text=True,
-            cwd=os.path.dirname(os.path.abspath(__file__))
-        )
+        predict_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "predict.py")
         
-        prediction_data = {
-            "class": "Unknown",
-            "confidence": "0%",
-            "raw_output": f"STDOUT:\n{pred_process.stdout}\n\nSTDERR:\n{pred_process.stderr}"
-        }
-
-        if pred_process.returncode == 0:
-            # Parse the text output using regex
-            # Class:      Malignant
-            # Confidence: 99.23%
-            class_match = re.search(r"Class:\s+(.+)", pred_process.stdout)
-            conf_match = re.search(r"Confidence:\s+(.+)", pred_process.stdout)
+        # Check if predict.py exists
+        if not os.path.exists(predict_script):
+            prediction_data = {
+                "class": "Error",
+                "confidence": "N/A",
+                "raw_output": f"FATAL ERROR: predict.py not found at {predict_script}"
+            }
+        else:
+            # Let's try to run a simple test to see if torch is importable
+            test_torch = subprocess.run(
+                [sys.executable, "-c", "import torch; print(torch.__version__)"],
+                capture_output=True,
+                text=True
+            )
             
-            if class_match:
-                prediction_data["class"] = class_match.group(1).strip()
-            if conf_match:
-                prediction_data["confidence"] = conf_match.group(1).strip()
+            torch_status = f"Torch Import Test: {'SUCCESS (' + test_torch.stdout.strip() + ')' if test_torch.returncode == 0 else 'FAILED\n' + test_torch.stderr}"
+
+            pred_process = subprocess.run(
+                [sys.executable, "predict.py", "--image", image_path],
+                capture_output=True,
+                text=True,
+                cwd=os.path.dirname(os.path.abspath(__file__))
+            )
+            
+            prediction_data = {
+                "class": "Unknown",
+                "confidence": "0%",
+                "raw_output": (
+                    f"{torch_status}\n\n"
+                    f"EXIT CODE: {pred_process.returncode}\n\n"
+                    f"STDOUT:\n{pred_process.stdout}\n\n"
+                    f"STDERR:\n{pred_process.stderr}"
+                )
+            }
+
+            if pred_process.returncode == 0:
+                class_match = re.search(r"Class:\s+(.+)", pred_process.stdout)
+                conf_match = re.search(r"Confidence:\s+(.+)", pred_process.stdout)
+                
+                if class_match:
+                    prediction_data["class"] = class_match.group(1).strip()
+                if conf_match:
+                    prediction_data["confidence"] = conf_match.group(1).strip()
 
         # 3. Combine results
         result = {
