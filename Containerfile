@@ -21,7 +21,9 @@ RUN apt-get update --fix-missing && \
 
 # Fixes for "Illegal Instruction" (SIGILL) on Raspberry Pi 4
 ENV OMP_NUM_THREADS=1
-ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+ENV OPENBLAS_CORETYPE=ARMV8
+# We preload both libgomp and libatomic which fixes many SIGILL cases on ARM64
+ENV LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1:/usr/lib/aarch64-linux-gnu/libatomic.so.1
 
 # Copy requirements first for better caching
 COPY requirements.txt .

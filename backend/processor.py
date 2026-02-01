@@ -38,11 +38,13 @@ def process_image(image_path):
             else:
                 # Check for LD_PRELOAD and library existence
                 preload = os.environ.get("LD_PRELOAD", "NOT SET")
-                lib_exists = os.path.exists("/usr/lib/aarch64-linux-gnu/libgomp.so.1")
+                gomp_exists = os.path.exists("/usr/lib/aarch64-linux-gnu/libgomp.so.1")
+                atomic_exists = os.path.exists("/usr/lib/aarch64-linux-gnu/libatomic.so.1")
                 torch_status = (
                     f"Torch Import Test: FAILED\n"
                     f"LD_PRELOAD: {preload}\n"
-                    f"LibGOMP Exists: {lib_exists}\n"
+                    f"LibGOMP Exists: {gomp_exists}\n"
+                    f"LibAtomic Exists: {atomic_exists}\n"
                     f"STDERR: {test_torch.stderr}"
                 )
 
