@@ -85,7 +85,7 @@ async def read_cv():
 @app.get("/doc")
 async def read_doc():
     try:
-        content = get_page_with_components("cv.html")
+        content = get_page_with_components("doc.html")
         return HTMLResponse(content)
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="Page not found")

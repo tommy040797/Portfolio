@@ -68,6 +68,8 @@ jobs:
             # Stop and remove existing container
             sudo docker stop image-processor || true
             sudo docker rm image-processor || true
+            # Cleanup old images and containers to free up space
+            sudo docker system prune -af
             
             # Pull and run the new image with auto-restart policy
             sudo docker pull $IMAGE_PATH
