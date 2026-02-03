@@ -5,65 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Hub | Precision Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #ffffff;
-            -webkit-font-smoothing: antialiased;
-        }
-        .card-bg {
-            background-color: #0f0f0f;
-            border: 1px solid #1a1a1a;
-        }
-        .text-muted {
-            color: #888888;
-        }
-        .accent-green {
-            background-color: #22c55e;
-            color: #ffffff;
-        }
-        .accent-green:hover {
-            background-color: #16a34a;
-        }
-        .border-muted {
-            border-color: #1a1a1a;
-        }
-    </style>
+    <link rel="stylesheet" href="/resource/style.css">
 </head>
 <body class="min-h-screen flex flex-col">
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
-        <div class="font-bold text-xl tracking-tighter">MEDICAL HUB</div>
-        <div class="flex space-x-8 text-sm font-medium text-muted">
-            <a href="#" class="hover:text-white transition-colors">Modelle</a>
-            <a href="#" class="hover:text-white transition-colors">Forschung</a>
-            <a href="#" class="hover:text-white transition-colors">Doku</a>
-        </div>
-    </nav>
+    <!-- HEADER_PLACEHOLDER -->
 
-    <main class="flex-grow flex flex-col items-center justify-center px-6 py-20">
-        <div class="max-w-4xl w-full text-center">
-            <div class="inline-flex items-center px-3 py-1 rounded-full border border-muted text-[10px] font-bold tracking-[0.2em] uppercase text-muted mb-8">
-                Version 2026.2.3 • Stabil
-            </div>
-            
-            <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-none">
-                Präzision in <span class="text-muted">Echtzeit.</span>
+    <main class="max-w-7xl mx-auto px-6 py-24 flex-grow w-full">
+        <div class="max-w-3xl">
+            <h2 class="text-[12px] font-bold text-muted tracking-[0.4em] uppercase mb-4">Precision Analysis</h2>
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85] mb-8">
+                ADVANCED<br>DERMAL<br>INTELLIGENCE
             </h1>
-            
-            <p class="text-xl text-muted mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-                Modernste dermatologische Analyse-Modelle direkt auf deinem Edge-Device. 
-                Optimiert für Geschwindigkeit, Datenschutz und Verlässlichkeit.
+            <p class="text-lg md:text-xl text-muted font-light max-w-xl mb-12 leading-relaxed">
+                KI-basierte Analyse von Hautgewebe mit höchster Präzision. 
+                Optimiert für Edge-Inferenz auf dem Raspberry Pi.
             </p>
-            
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="/scanner" class="accent-green px-12 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-2xl shadow-green-500/10">
-                    Scanner Starten
-                </a>
-                <a href="#" class="card-bg px-12 py-4 rounded-xl font-bold text-lg hover:bg-[#151515] transition-all border border-muted text-white">
-                    Protokolle einsehen
-                </a>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="window.location.href='/scanner'" class="accent-green px-10 py-5 rounded-2xl font-bold text-lg tracking-tight hover:scale-105 transition-transform">
+                    SCANNER STARTEN
+                </button>
+                <button class="bg-card px-10 py-5 rounded-2xl font-bold text-lg tracking-tight border border-muted hover:bg-[#1a1a1a] transition-colors">
+                    DOKUMENTATION
+                </button>
             </div>
         </div>
 
@@ -94,14 +57,6 @@
         </div>
     </main>
 
-    <footer class="p-12 border-t border-muted text-center">
-        <p class="text-[10px] text-muted tracking-[0.4em] font-bold uppercase mb-4">
-            &copy; 2026 Medical AI Solutions • Tommy Portfolio
-        </p>
-        <p class="text-[9px] text-muted/60 max-w-xl mx-auto leading-relaxed">
-            HINWEIS: Dieses System ist ein reines Technologie-Portfolio-Projekt und kein medizinisches Gerät. 
-            Die Analysen sind nicht für diagnostische Zwecke geeignet und ersetzen niemals einen Arztbesuch.
-        </p>
-    </footer>
+    <!-- FOOTER_PLACEHOLDER -->
 </body>
 </html>

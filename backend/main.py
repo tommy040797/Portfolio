@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 import os
 import uuid
 import shutil
@@ -23,30 +23,78 @@ app.add_middleware(
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(os.path.dirname(BASE_DIR), "frontend")
+COMPONENTS_DIR = os.path.join(FRONTEND_DIR, "components")
 UPLOAD_DIR = os.path.join(BASE_DIR, "temp_uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Initialize the classifier globally (loads model once on startup)
 classifier = SkinClassifier()
 
+#es gibt wohl keine möglichkeit mehr header und footer mit include einzubinden, aber ich will auch einen header der nicht in jedem html manuell bearbeitet werden muss.
+def get_page_with_components(page_name):
+    page_path = os.path.join(FRONTEND_DIR, page_name)
+    header_path = os.path.join(COMPONENTS_DIR, "header.html")
+    footer_path = os.path.join(COMPONENTS_DIR, "footer.html")
+    
+    with open(page_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    if os.path.exists(header_path):
+        with open(header_path, "r", encoding="utf-8") as f:
+            header = f.read()
+        content = content.replace("<!-- HEADER_PLACEHOLDER -->", header)
+        
+        # probleme mit react sonst..
+        safe_header = header.replace("`", "\\`")
+        content = content.replace("{/* HEADER_MARKER */}", f'<div dangerouslySetInnerHTML={{{{ __html: `{safe_header}` }}}} />')
+
+    if os.path.exists(footer_path):
+        with open(footer_path, "r", encoding="utf-8") as f:
+            footer = f.read()
+        content = content.replace("<!-- FOOTER_PLACEHOLDER -->", footer)
+        safe_footer = footer.replace("`", "\\`")
+        content = content.replace("{/* FOOTER_MARKER */}", f'<div dangerouslySetInnerHTML={{{{ __html: `{safe_footer}` }}}} />')
+        
+    return content
+
 # Serve the landing page at /
 @app.get("/")
 async def read_landing():
-    index_path = os.path.join(FRONTEND_DIR, "index.html")
-    if not os.path.exists(index_path):
-        raise HTTPException(status_code=404, detail=f"Landing page index.html not found at {index_path}")
-    return FileResponse(index_path)
+    try:
+        content = get_page_with_components("index.html")
+        return HTMLResponse(content)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Page not found")
 
-# Serve the scanner page at /scanner
 @app.get("/scanner")
 async def read_scanner():
-    scanner_path = os.path.join(FRONTEND_DIR, "scanner.html")
-    if not os.path.exists(scanner_path):
-        raise HTTPException(status_code=404, detail=f"Scanner page scanner.html not found at {scanner_path}")
-    return FileResponse(scanner_path)
+    try:
+        content = get_page_with_components("scanner.html")
+        return HTMLResponse(content)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Page not found")
+
+@app.get("/cv")
+async def read_cv():
+    try:
+        content = get_page_with_components("cv.html")
+        return HTMLResponse(content)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Page not found")
+
+@app.get("/doc")
+async def read_doc():
+    try:
+        content = get_page_with_components("cv.html")
+        return HTMLResponse(content)
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Page not found")
 
 # bilder zur Vorschau bereitstellen
 app.mount("/scanner/previews", StaticFiles(directory=UPLOAD_DIR), name="previews")
+
+# Statische Ressourcen (PDFs, Bilder, etc.) bereitstellen
+app.mount("/resource", StaticFiles(directory=os.path.join(FRONTEND_DIR, "resource")), name="static_resource")
 
 
 @app.post("/scanner/process-image")

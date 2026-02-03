@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset and Global Styles */
+html, body, #root { 
+    height: 100%; 
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #050505;
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Design Tokens */
+.card-bg {
+    background-color: #0c0c0c;
+    border: 1px solid #1a1a1a;
+}
+
+/* CV specific card background (more glass-like) */
+.cv-card-bg {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-muted {
+    color: #888888;
+}
+
+.border-muted {
+    border-color: #1a1a1a;
+}
+
+.accent-green {
+    background-color: #22c55e;
+    color: #ffffff;
+}
+
+.accent-green:hover {
+    background-color: #16a34a;
+}
+
+/* Scanner Specific */
+.upload-zone {
+    transition: all 0.2s ease;
+    background-color: #0a0a0a;
+}
+
+.upload-zone:hover {
+    border-color: #22c55e;
+    background-color: #0f0f0f;
+}
+
+/* Layout Utilities */
+.flex-grow {
+    flex-grow: 1;
+}
+
+/* Scrollbar Styling (Optional for premium feel) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #252525;
+}
