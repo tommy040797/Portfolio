@@ -58,6 +58,7 @@ jobs:
           host: ${{ secrets.PI_HOST }}
           username: ${{ secrets.PI_USER }}
           key: ${{ secrets.PI_SSH_KEY }}
+          command_timeout: 30m
           script: |
             # Set image name to lowercase
             IMAGE_PATH=$(echo "ghcr.io/${{ github.repository }}:main" | tr '[:upper:]' '[:lower:]')
