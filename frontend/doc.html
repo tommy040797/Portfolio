@@ -19,63 +19,84 @@
                 </h1>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Repo 1 -->
-                <div class="card-bg p-10 rounded-[2.5rem] group hover:border-green-500/50 transition-all duration-500 flex flex-col h-full">
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 rounded-2xl bg-[#151515] flex items-center justify-center border border-muted group-hover:bg-green-500/10 transition-colors">
-                            <span class="text-3xl">🤖</span>
+            <!-- Classifier Repository (Full Width) -->
+            <div class="card-bg p-10 rounded-[2.5rem] group hover:border-green-500/50 transition-all duration-500">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <!-- Left: Header, Description & Button -->
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-14 h-14 rounded-2xl bg-[#151515] flex items-center justify-center border border-muted group-hover:bg-green-500/10 transition-colors">
+                                <span class="text-3xl">🤖</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold tracking-tight">Self Trained Classifier Model</h3>
+                                <p class="text-xs text-muted font-bold tracking-widest uppercase mt-1">Python • PyTorch • numpy</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-2xl font-bold tracking-tight">AI Image Processor</h3>
-                            <p class="text-xs text-muted font-bold tracking-widest uppercase mt-1">Python • PyTorch • Docker</p>
-                        </div>
+                        
+                        <p class="text-muted leading-relaxed mb-6">
+                            Dieses Repository implementiert eine modulare, end-to-end Machine-Learning-Pipeline zur Entwicklung und Evaluation eines Klassifikationsmodells in Python - inklusive Datenvorverarbeitung, Training, Validierung und Inferenz. Der Fokus liegt auf reproduzierbaren ML-Workflows, sauberer Software-Architektur und produktionsnaher Modellbewertung für praxisorientierte KI-Anwendungen.
+                        </p>
+                        
+                        <a href="https://github.com/tommy040797/Classifier" target="_blank" class="accent-green w-full py-4 rounded-2xl font-bold text-center tracking-tight hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-auto">
+                            <span>REPOSITORY ANSEHEN</span>
+                            <span class="text-xl">↗</span>
+                        </a>
                     </div>
                     
-                    <p class="text-muted leading-relaxed mb-10 flex-grow">
-                        Der Kern dieses Portfolios. Ein optimierter ResNet-basierten Classifier für Hautveränderungen, 
-                        entwickelt für High-Performance Inferenz auf dem Raspberry Pi 4. Inklusive moderner FastAPI 
-                        Integration und automatisierter CI/CD Pipeline via GitHub Actions.
-                    </p>
-                    
-                    <a href="https://github.com/tommy040797/Portfolio" target="_blank" class="accent-green w-full py-4 rounded-2xl font-bold text-center tracking-tight hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                        <span>REPOSITORY ANSEHEN</span>
-                        <span class="text-xl">↗</span>
-                    </a>
+                    <!-- Right: Confusion Matrix -->
+                    <div class="p-6 bg-[#0a0a0a] rounded-2xl border border-muted">
+                        <h4 class="text-xs font-bold tracking-[0.2em] uppercase mb-4 text-muted">Model Performance</h4>
+                        <div class="bg-black rounded-xl p-4 flex items-center justify-center">
+                            <img src="/resource/confusion_matrix.png" alt="Confusion Matrix" class="max-w-full h-auto rounded-lg">
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Repo 2 -->
+            <!-- Automation Repository -->
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mt-8">
                 <div class="card-bg p-10 rounded-[2.5rem] group hover:border-green-500/50 transition-all duration-500 flex flex-col h-full">
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-14 h-14 rounded-2xl bg-[#151515] flex items-center justify-center border border-muted group-hover:bg-green-500/10 transition-colors">
                             <span class="text-3xl">🔧</span>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold tracking-tight">Automatisierung & IOT</h3>
-                            <p class="text-xs text-muted font-bold tracking-widest uppercase mt-1">Bash • Docker • IoT</p>
+                            <h3 class="text-2xl font-bold tracking-tight">Portfolio Webserver</h3>
+                            <p class="text-xs text-muted font-bold tracking-widest uppercase mt-1">Docker • FastAPI • React • Tailwind</p>
                         </div>
                     </div>
                     
-                    <p class="text-muted leading-relaxed mb-10 flex-grow">
-                        Eine Sammlung von Scripts und Konfigurationen zur Automatisierung von Edge-Geräten. 
-                        Fokus auf Ressourcenmanagement, Sicherheit und Stabilität in headless Umgebungen.
+                    <p class="text-muted leading-relaxed mb-6 flex-grow">
+                        Das Repository realisiert eine containerisierte Portfolio-Plattform mit FastAPI-Backend, integriertem Machine-Learning-Classifier-Modell und einem modernen React + Tailwind Frontend. Durch den Einsatz von Docker und GitHub Actions wird ein automatisierter CI/CD-Workflow demonstriert, der produktionsnahe Deployment-Pipelines und MLOps-nahe Webintegration vereint.
                     </p>
                     
-                    <a href="https://github.com/tommy040797" target="_blank" class="bg-[#151515] border border-muted text-white w-full py-4 rounded-2xl font-bold text-center tracking-tight hover:bg-[#1a1a1a] transition-all flex items-center justify-center gap-3">
-                        <span>PROFILE ANSEHEN</span>
+                    <a href="https://github.com/tommy040797/Portfolio" target="_blank" class="accent-green w-full py-4 rounded-2xl font-bold text-center tracking-tight hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-auto">
+                        <span>REPOSITORY ANSEHEN</span>
                         <span class="text-xl">↗</span>
                     </a>
                 </div>
             </div>
-            
-            <div class="mt-20 p-10 card-bg rounded-[2.5rem] border-dashed text-center">
-                <h4 class="text-sm font-bold tracking-[0.2em] uppercase mb-4">Projekt-Architektur</h4>
-                <p class="text-muted text-sm max-w-2xl mx-auto leading-relaxed italic">
-                    "Die Architektur folgt dem Prinzip der Edge-Computing Effizienz: 
-                    Zero-Cloud Abhängigkeit, lokale Datenverarbeitung und optimierte Docker-Container 
-                    für ARM-basierte Hardware."
-                </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mt-8">
+                <div class="card-bg p-10 rounded-[2.5rem] group hover:border-green-500/50 transition-all duration-500 flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-14 h-14 rounded-2xl bg-[#151515] flex items-center justify-center border border-muted group-hover:bg-green-500/10 transition-colors">
+                            <span class="text-3xl">🔜</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold tracking-tight">Weitere Projekte</h3>
+                            <p class="text-xs text-muted font-bold tracking-widest uppercase mt-1">Docker • FastAPI • React • Tailwind</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-muted leading-relaxed mb-6 flex-grow">
+                        Weitere Projekte, kann ich hier nicht alle auflisten, aber ich kann Ihnen gerne mehr zeigen, wenn Sie möchten. Außerdem wird dieses Portfolio ständig weiterentwickelt und verbessert.
+                    </p>
+                </div>
             </div>
+            
+
         </div>
     </main>
 
